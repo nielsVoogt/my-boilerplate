@@ -1,7 +1,19 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import './registerServiceWorker'
-import router from './router'
-import store from './store'
+import "./registerServiceWorker";
 
-createApp(App).use(store).use(router).mount('#app')
+import App from "./App.vue";
+import { createApp } from "vue";
+import router from "./router";
+import store from "./store";
+
+const fb = require("./firebaseConfig.js");
+
+let app;
+
+fb.auth.onAuthStateChanged(() => {
+  if (!app) {
+    app = createApp(App);
+    app.use(store);
+    app.use(router);
+    app.mount("#app");
+  }
+});
