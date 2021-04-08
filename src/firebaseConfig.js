@@ -14,10 +14,9 @@ let firebaseConfig = {
   measurementId: process.env.VUE_APP_MEASUREMENTID,
 };
 
+// When we are developing use the emulator suite
 if (location.hostname === "localhost") {
-  firebaseConfig = {
-    databaseURL: "http://localhost:9000?ns=emulatorui",
-  };
+  firebaseConfig.databaseURL = "http://localhost:9000?ns=emulatorui";
 }
 
 // Initialize Firebase
