@@ -1,10 +1,11 @@
 {
   "name": "my-boilerplate",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
+  "author": "Niels Voogt <n.voogt@gmail.com>",
   "scripts": {
     "serve": "vue-cli-service serve --mode=development",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build --mode=production",
     "test:serviceworker": "serve -s dist",
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint",
