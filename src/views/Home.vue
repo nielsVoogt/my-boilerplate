@@ -1,19 +1,17 @@
 <template>
   <div class="home">
     <h1>{{ $t("home.header") }}</h1>
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <SelectLocale />
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
+import SelectLocale from "@/components/ui/SelectLocale.vue";
 
 export default {
   name: "Home",
   components: {
-    HelloWorld,
+    SelectLocale,
   },
 };
 </script>
