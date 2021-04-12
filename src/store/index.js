@@ -1,7 +1,8 @@
 const fb = require("@/firebaseConfig.js");
 
+import { createLogger, createStore } from "vuex";
+
 import actions from "./actions";
-import { createStore } from "vuex";
 import getters from "./getters";
 import mutations from "./mutations";
 
@@ -14,9 +15,10 @@ const initialState = () => {
 
 export const store = createStore({
   state: initialState(),
-  mutations,
-  actions,
   getters,
+  actions,
+  mutations,
+  plugins: process.env.NODE_ENV !== "production" ? [createLogger()] : [],
 });
 
 fb.auth.onAuthStateChanged((user) => {
