@@ -12,6 +12,9 @@
     "deploy": "npm run build && firebase deploy"
   },
   "dependencies": {
+    "@vuelidate/core": "^2.0.0-alpha.15",
+    "@vuelidate/validators": "^2.0.0-alpha.13",
+    "@zhuowenli/vue-feather-icons": "^5.0.2",
     "core-js": "^3.6.5",
     "firebase": "^8.3.2",
     "register-service-worker": "^1.7.1",
