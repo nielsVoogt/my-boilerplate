@@ -1,25 +1,53 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../views/Home.vue'
+import { createRouter, createWebHistory } from "vue-router";
+
+// import Home from "../views/Home.vue";
 
 const routes = [
   {
-    path: '/',
-    name: 'Home',
-    component: Home
+    path: "/",
+    name: "Home",
+    component: () =>
+      import(/* webpackChunkName: "home" */ "../views/Login.vue"),
   },
+  // {
+  //   path: "/about",
+  //   name: "About",
+  //   component: () =>
+  //     import(/* webpackChunkName: "about" */ "../views/About.vue"),
+  // },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
-]
+    path: "/auth",
+    component: () => import("../layouts/Auth.vue"),
+    children: [
+      {
+        path: "/login",
+        name: "Login",
+        component: () =>
+          import(/* webpackChunkName: "login" */ "../views/Login.vue"),
+      },
+      {
+        path: "/registration",
+        name: "Registration",
+        component: () =>
+          import(
+            /* webpackChunkName: "registration" */ "../views/Registration.vue"
+          ),
+      },
+      {
+        path: "/reset-password",
+        name: "ResetPassword",
+        component: () =>
+          import(
+            /* webpackChunkName: "resetPassword" */ "../views/ResetPassword.vue"
+          ),
+      },
+    ],
+  },
+];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;
