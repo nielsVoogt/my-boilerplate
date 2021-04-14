@@ -6,29 +6,27 @@
       to login.
     </p>
 
-    <form @submit.prevent="validate()">
-      <fieldset>
-        <Input
-          type="email"
-          label="Email"
-          placeholder="e.g. niels@company.nl"
-          v-model="email"
-          :error="fieldErrors.email"
-          v-on:blur="validateEmailAdress()"
-        />
+    <form @submit.prevent="validate()" novalidate>
+      {{ formError }}
+      <Input
+        type="email"
+        label="Email"
+        placeholder="e.g. niels@company.nl"
+        v-model="email"
+        :error="fieldErrors.email"
+        v-on:blur="validateEmailAdress()"
+      />
 
-        <Input
-          type="password"
-          label="Password"
-          placeholder="Your password"
-          v-model="password"
-          sublabel="Your password should be at least 6 characters long"
-          :error="fieldErrors.password"
-          v-on:blur="validatePassword()"
-          @change="fieldErrors.password = ''"
-        />
-      </fieldset>
-      <FormError v-if="formError" :error="formError" @close="formError = ''" />
+      <Input
+        type="password"
+        label="Password"
+        placeholder="Your password"
+        v-model="password"
+        sublabel="Your password should be at least 6 characters long"
+        :error="fieldErrors.password"
+        v-on:blur="validatePassword()"
+        @change="fieldErrors.password = ''"
+      />
 
       <Button type="submit" size="lg" full-width>
         <Spinner v-if="accountSetup" />
@@ -64,7 +62,7 @@ export default {
       email: "",
       password: "",
       accountSetup: false,
-      formError: false,
+      formError: "",
       fieldErrors: {
         shopName: "",
         email: "",
@@ -72,15 +70,17 @@ export default {
       },
     };
   },
-  validations: {
-    email: {
-      required,
-      email,
-    },
-    password: {
-      required,
-      minLength: minLength(6),
-    },
+  validations() {
+    return {
+      email: {
+        required,
+        email,
+      },
+      password: {
+        required,
+        minLength: minLength(6),
+      },
+    };
   },
   methods: {
     validatePassword() {

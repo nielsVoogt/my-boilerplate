@@ -21,9 +21,8 @@
         class="form-group-input"
         v-bind="$attrs"
         :type="inputType"
-        :value="value"
-        @input="$emit('update', $event.target.value)"
-        @change="$emit('update', $event.target.value)"
+        @input="(e) => $emit('update:modelValue', e.target.value)"
+        @change="(e) => $emit('update:modelValue', e.target.value)"
         @blur="$emit('blur')"
         @focus="$emit('focus')"
         spellcheck="false"
@@ -32,8 +31,8 @@
       <textarea
         v-if="type === 'textarea'"
         v-bind="$attrs"
-        @input="$emit('update', $event.target.value)"
-        @change="$emit('update', $event.target.value)"
+        @input="$emit('update:modelValue', $event.target.value)"
+        @change="$emit('update:modelValue', $event.target.value)"
         @blur="$emit('blur')"
         @focus="$emit('focus')"
         class="form-group-textarea"
@@ -100,7 +99,9 @@ export default {
   components: {
     SearchIcon,
   },
+  emits: ["update:modelValue", "blur", "focus"],
   props: {
+    modelValue: String, // previously was `value: String`
     error: {
       type: [String, Boolean],
       required: false,

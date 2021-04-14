@@ -6,7 +6,7 @@ import { createI18n } from "vue-i18n";
 import { en } from "./locales/en";
 import { nl } from "./locales/nl";
 import router from "./router";
-import store from "./store";
+import { store } from "./store";
 
 const fb = require("./firebaseConfig.js");
 

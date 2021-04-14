@@ -2,19 +2,18 @@
   <div>
     <AuthPanel v-if="!requestEmailValidation">
       <p>
-        The easiest way to share tips among your friends! Use your credentials
-        to log in or
+        Use your credentials to log in or
         <router-link :to="{ name: 'Registration' }">click here</router-link>
         to create a new account!
       </p>
+
       <form @submit.prevent="validate()" novalidate>
         <small v-if="error">{{ error }}</small>
-
         <Input
           type="email"
           label="Email"
           placeholder="e.g. niels@company.nl"
-          v-model="email"
+          v-model:modelValue="email"
           :error="fieldErrors.email"
           @blur="validateEmailAdress()"
           @change="fieldErrors.email = ''"
@@ -24,7 +23,7 @@
           type="password"
           label="Password"
           placeholder="Your password"
-          v-model="password"
+          v-model:modelValue="password"
           :error="fieldErrors.password"
           @change="fieldErrors.password = ''"
         />
@@ -33,9 +32,10 @@
           Login
         </Button>
       </form>
+
       <template v-slot:link>
         <router-link :to="{ name: 'ResetPassword' }">
-          Forgot your password?
+          {{ $t("auth.forgotYourPassword") }}
         </router-link>
       </template>
     </AuthPanel>
@@ -76,7 +76,7 @@ export default {
     return {
       email: "",
       password: "",
-      error: false,
+      formError: false,
       requestEmailValidation: false,
       fieldErrors: {
         email: "",
@@ -97,28 +97,22 @@ export default {
     ...mapActions(["logInAction"]),
 
     validateEmailAdress() {
-      const isEmailValid = this.$v.email.email;
-      this.fieldErrors.email = !isEmailValid
-        ? "This is not a valid email adress"
-        : "";
+      if (this.email !== "") {
+        this.fieldErrors.email = this.v$.email.$invalid
+          ? this.$t("auth.errors.invalidEmail")
+          : "";
+      }
     },
 
     validate() {
-      if (!this.$v.email.required) {
-        this.fieldErrors.email = "Email adress can't be empty";
-      }
-
-      if (!this.$v.password.required) {
-        this.fieldErrors.password = "The password can't be empty";
-      }
-
-      if (
-        !this.$v.password.required ||
-        !this.$v.email.required ||
-        !this.$v.email.email
-      )
+      this.v$.$touch();
+      if (this.v$.$invalid) {
+        this.fieldErrors.email =
+          this.email === "" ? this.$t("auth.errors.emptyEmail") : "";
+        this.fieldErrors.password =
+          this.password === "" ? this.$t("auth.errors.emptyPassword") : "";
         return;
-
+      }
       this.login();
     },
 
@@ -132,7 +126,7 @@ export default {
           // if not we are throwing the error itself, in this case
           // meaning the user has a unverified emailAdress.
           if (error) {
-            this.error = "Wrong email or password";
+            this.formError = this.$t("auth.errors.emptyPassword");
             this.email = "";
             this.password = "";
           } else {

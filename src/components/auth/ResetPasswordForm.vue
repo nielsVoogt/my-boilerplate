@@ -81,6 +81,7 @@ export default {
       }
       this.resetPassword();
     },
+
     resetPassword() {
       fb.auth
         .sendPasswordResetEmail(this.email)
